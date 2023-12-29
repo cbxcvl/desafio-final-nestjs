@@ -1,0 +1,54 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgres"
+    url      = env("DB_URL")
+}
+
+model Users {
+    id            String      @id @default(uuid())
+    name          String      @db.VarChar(255)
+    email         String      @unique @db.VarChar(255)
+    phone         String?     @db.VarChar(255)
+    cpf           String?     @db.VarChar(255)
+    password_hash String      @db.VarChar(255)
+    created_at    DateTime    @default(now()) @db.Timestamptz(6)
+    updated_at    DateTime    @updatedAt @db.Timestamptz(6)
+    clients       Customers[]
+    billing       Billings[]
+}
+
+model Customers {
+    id           String     @id @default(uuid())
+    name         String     @db.VarChar(255)
+    phone        String     @db.VarChar(255)
+    email        String     @db.VarChar(255)
+    cpf          String     @db.VarChar(255)
+    cep          Int?
+    city         String?    @db.VarChar(255)
+    uf           String?    @db.VarChar(2)
+    address      String?    @db.VarChar(255)
+    complement   String?    @db.VarChar(255)
+    neighborhood String?    @db.VarChar(255)
+    supplierId   String
+    supplier     Users      @relation(fields: [supplierId], references: [id])
+    billing      Billings[]
+    created_at   DateTime   @default(now()) @db.Timestamptz(6)
+    updated_at   DateTime   @updatedAt @db.Timestamptz(6)
+}
+
+model Billings {
+    id          String    @id @default(uuid())
+    description String    @db.VarChar(255)
+    status      String    @db.VarChar(255)
+    value       Int       @db.Integer
+    dueDate     DateTime  @db.Date
+    customerId  String
+    customer    Customers @relation(fields: [customerId], references: [id])
+    supplierId  String
+    supplier    Users     @relation(fields: [supplierId], references: [id])
+    created_at  DateTime  @default(now()) @db.Timestamptz(6)
+    updated_at  DateTime  @updatedAt @db.Timestamptz(6)
+}
