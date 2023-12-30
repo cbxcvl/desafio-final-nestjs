@@ -15,9 +15,9 @@ export class UserController {
   @Post()
   @UsePipes(new ValidationPipe())
   async create(@Body() body: CreateUserDto) {
-    const { email, name, password } = body;
+    const { name, email, password } = body;
 
-    const newUser = await this.userRepository.create(email, name, password);
+    const newUser = await this.userRepository.create(name, email, password);
 
     return newUser;
   }
