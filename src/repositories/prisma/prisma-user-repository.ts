@@ -23,8 +23,8 @@ export class PrismaUserRepository implements UserRepository {
     const encryptedPassword: string = await bcrypt.hash(password, 10);
     const newUser = await this.prisma.users.create({
       data: {
-        email,
         name,
+        email,
         password_hash: encryptedPassword,
       },
       select: {

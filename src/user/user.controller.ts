@@ -4,15 +4,18 @@ import {
   Body,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from '../repositories/user-repository';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private userRepository: UserRepository) {}
 
   @Post()
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe())
   async create(@Body() body: CreateUserDto) {
     const { name, email, password } = body;
