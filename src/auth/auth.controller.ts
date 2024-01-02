@@ -8,7 +8,7 @@ import {
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthRepository } from '../repositories/auth-repository';
 
-@Controller('auth')
+@Controller('login')
 export class AuthController {
   constructor(private readonly authRepository: AuthRepository) {}
 
