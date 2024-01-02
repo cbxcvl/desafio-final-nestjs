@@ -28,6 +28,7 @@ export class PrismaUserRepository implements UserRepository {
     }
 
     const encryptedPassword: string = await bcrypt.hash(password, 10);
+
     const newUser = await this.prisma.users.create({
       data: {
         name,
@@ -47,8 +48,8 @@ export class PrismaUserRepository implements UserRepository {
     name?: string,
     email?: string,
     password?: string,
-    phone?: number,
-    cpf?: number,
+    phone?: string,
+    cpf?: string,
   ): Promise<{
     name: string;
     email: string;

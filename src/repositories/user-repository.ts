@@ -10,8 +10,8 @@ export abstract class UserRepository {
     name: string,
     email: string,
     password: string,
-    phone?: number,
-    cpf?: number,
+    phone?: string,
+    cpf?: string,
   ): Promise<{
     name: string;
     email: string;
