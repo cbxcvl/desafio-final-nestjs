@@ -35,7 +35,7 @@ export class PrismaAuthRepository implements AuthRepository {
       },
       process.env.JWT_KEY,
       {
-        expiresIn: 604800,
+        expiresIn: '1h',
       },
     );
 
