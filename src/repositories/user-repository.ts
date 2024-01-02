@@ -4,4 +4,18 @@ export abstract class UserRepository {
     email: string,
     password: string,
   ): Promise<{ name: string; email: string }>;
+
+  abstract update(
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    phone?: number,
+    cpf?: number,
+  ): Promise<{
+    name: string;
+    email: string;
+    phone: number;
+    cpf: number;
+  }>;
 }
