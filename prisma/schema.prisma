@@ -11,8 +11,8 @@ model Users {
     id            String      @id @default(uuid())
     name          String      @db.VarChar(255)
     email         String      @unique @db.VarChar(255)
-    phone         Int?
-    cpf           Int?
+    phone         String      @db.VarChar(11)
+    cpf           String      @db.VarChar(11)
     password_hash String      @db.VarChar(255)
     created_at    DateTime    @default(now()) @db.Timestamptz(6)
     updated_at    DateTime    @updatedAt @db.Timestamptz(6)
@@ -23,10 +23,10 @@ model Users {
 model Customers {
     id           String     @id @default(uuid())
     name         String     @db.VarChar(255)
-    phone        Int
+    phone        String     @db.VarChar(11)
     email        String     @db.VarChar(255)
-    cpf          Int
-    cep          Int?
+    cpf          String     @db.VarChar(11)
+    cep          String?
     city         String?    @db.VarChar(255)
     uf           String?    @db.VarChar(2)
     address      String?    @db.VarChar(255)
