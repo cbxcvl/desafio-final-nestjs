@@ -1,5 +1,6 @@
 import {
   Controller,
+  Post,
   Patch,
   Body,
   UsePipes,
@@ -14,6 +15,16 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Controller('user')
 export class UserController {
   constructor(private userRepository: UserRepository) {}
+
+  @Post()
+  @UsePipes(new ValidationPipe())
+  async create(@Body() body: CreateUserDto) {
+    const { name, email, password } = body;
+
+    const createdUser = await this.userRepository.create(name, email, password);
+
+    return createdUser;
+  }
 
   @Patch()
   @UseGuards(AuthGuard)
