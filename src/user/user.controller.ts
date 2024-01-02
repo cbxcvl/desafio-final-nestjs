@@ -11,6 +11,7 @@ import {
 import { UserRepository } from '../repositories/user-repository';
 import { AuthGuard } from '../guards/auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('user')
 export class UserController {

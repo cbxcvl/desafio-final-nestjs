@@ -17,7 +17,7 @@ export class UpdateUserDto {
   })
   password?: string;
 
-  phone?: number;
+  phone?: string;
 
-  cpf?: number;
+  cpf?: string;
 }
