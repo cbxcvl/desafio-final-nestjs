@@ -32,9 +32,9 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   async update(
     @Body() body: UpdateUserDto,
-    @Req() request: { user: { id: string } },
+    @Req() req: { user: { id: string } },
   ) {
-    const id = request.user.id;
+    const id = req.user.id;
 
     const { name, email, password, phone, cpf } = body;
 
@@ -50,22 +50,3 @@ export class UserController {
     return updateUser;
   }
 }
-
-// @Get()
-// findAll() {
-//   return this.userRepository.findAll();
-// }
-
-// @Get(':id')
-// findOne(@Param('id') id: string) {
-//   return this.userRepository.findOne(+id);
-// }
-
-// @Patch(':id')
-// update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-//   return this.userRepository.update(+id, updateUserDto);
-// }
-
-// @Delete(':id')
-// remove(@Param('id') id: string) {
-//   return this.userRepository.remove(+id);
