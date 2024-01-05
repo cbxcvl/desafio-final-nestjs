@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
         throw new Error('Falha na verificação do token JWT');
       }
 
-      request.user = decodedToken;
+      request.user = { id: decodedToken.id };
 
       return true;
     } catch (error) {
