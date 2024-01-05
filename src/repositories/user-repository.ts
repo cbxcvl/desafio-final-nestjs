@@ -15,7 +15,7 @@ export abstract class UserRepository {
   ): Promise<{
     name: string;
     email: string;
-    phone: number;
-    cpf: number;
+    phone: string;
+    cpf: string;
   }>;
 }
