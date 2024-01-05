@@ -1,34 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CustomerService } from './customer.service';
+import {
+  Controller,
+  Post,
+  Body,
+  UsePipes,
+  ValidationPipe,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { CustomerRepository } from '../repositories/customer-repository';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('customer')
 export class CustomerController {
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(private readonly customerRepository: CustomerRepository) {}
 
   @Post()
-  create(@Body() createCustomerDto: CreateCustomerDto) {
-    return this.customerService.create(createCustomerDto);
-  }
+  @UseGuards(AuthGuard)
+  @UsePipes(new ValidationPipe())
+  create(
+    @Body() body: CreateCustomerDto,
+    @Req() req: { user: { id: string } },
+  ) {
+    const { name, phone, email, cpf } = body;
+    const { id } = req.user;
+    const supplierId = id;
 
-  @Get()
-  findAll() {
-    return this.customerService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.customerService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
-    return this.customerService.update(+id, updateCustomerDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customerService.remove(+id);
+    return this.customerRepository.create(name, phone, email, cpf, supplierId);
   }
 }
