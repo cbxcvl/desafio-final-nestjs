@@ -53,8 +53,8 @@ export class PrismaUserRepository implements UserRepository {
   ): Promise<{
     name: string;
     email: string;
-    phone: number;
-    cpf: number;
+    phone: string;
+    cpf: string;
     token: string;
   }> {
     const existingUser = await this.prisma.users.findUnique({
