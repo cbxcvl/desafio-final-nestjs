@@ -1,4 +1,3 @@
-// customer.module.ts
 import { Module } from '@nestjs/common';
 import { CustomerController } from './customer.controller';
 import { CustomerRepository } from '../repositories/customer-repository';
@@ -8,7 +7,12 @@ import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../database/prisma.service';
 
 @Module({
-  imports: [JwtModule],
+  imports: [
+    JwtModule.register({
+      secret: process.env.JWT_KEY,
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
   controllers: [CustomerController],
   providers: [
     PrismaService,
