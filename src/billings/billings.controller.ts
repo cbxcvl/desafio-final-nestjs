@@ -1,34 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { BillingsService } from './billings.service';
+import {
+  Controller,
+  Post,
+  Body,
+  UsePipes,
+  ValidationPipe,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
+import { BillingRepository } from '../repositories/billing-repository';
 import { CreateBillingDto } from './dto/create-billing.dto';
-import { UpdateBillingDto } from './dto/update-billing.dto';
+import { AuthGuard } from '../guards/auth.guard';
 
-@Controller('billings')
+@Controller('billing')
 export class BillingsController {
-  constructor(private readonly billingsService: BillingsService) {}
+  constructor(private readonly billingRepository: BillingRepository) {}
 
   @Post()
-  create(@Body() createBillingDto: CreateBillingDto) {
-    return this.billingsService.create(createBillingDto);
-  }
+  @UseGuards(AuthGuard)
+  @UsePipes(new ValidationPipe())
+  create(@Body() body: CreateBillingDto, @Req() req: { user: { id: string } }) {
+    const { description, status, value, dueDate, customerId } = body;
+    const { id } = req.user;
+    const supplierId = id;
 
-  @Get()
-  findAll() {
-    return this.billingsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.billingsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBillingDto: UpdateBillingDto) {
-    return this.billingsService.update(+id, updateBillingDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.billingsService.remove(+id);
+    return this.billingRepository.create(
+      description,
+      status,
+      value,
+      dueDate,
+      customerId,
+      supplierId,
+    );
   }
 }
