@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Get,
   Body,
   UsePipes,
   ValidationPipe,
@@ -27,5 +28,11 @@ export class CustomerController {
     const supplierId = id;
 
     return this.customerRepository.create(name, phone, email, cpf, supplierId);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard)
+  async getAll() {
+    return this.customerRepository.getAll();
   }
 }
