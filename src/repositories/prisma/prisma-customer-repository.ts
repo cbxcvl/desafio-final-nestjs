@@ -67,10 +67,8 @@ export class PrismaCustomerRepository implements CustomerRepository {
       updated_at: Date;
     }[]
   > {
-    // Utiliza o método findMany do Prisma para buscar todos os clientes
     const allCustomers = await this.prisma.customers.findMany();
 
-    // Retorna o resultado
     return allCustomers;
   }
 }
