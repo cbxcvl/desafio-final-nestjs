@@ -48,4 +48,29 @@ export class PrismaCustomerRepository implements CustomerRepository {
       throw new ConflictException(error.message);
     }
   }
+
+  async getAll(): Promise<
+    {
+      id: string;
+      name: string;
+      phone: string;
+      email: string;
+      cpf: string;
+      cep: string | null;
+      city: string | null;
+      uf: string | null;
+      address: string | null;
+      complement: string | null;
+      neighborhood: string | null;
+      supplierId: string;
+      created_at: Date;
+      updated_at: Date;
+    }[]
+  > {
+    // Utiliza o método findMany do Prisma para buscar todos os clientes
+    const allCustomers = await this.prisma.customers.findMany();
+
+    // Retorna o resultado
+    return allCustomers;
+  }
 }
