@@ -1,4 +1,8 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { CustomerRepository } from '../customer-repository';
 import { AuthService } from '../../auth/auth.service';
@@ -70,5 +74,32 @@ export class PrismaCustomerRepository implements CustomerRepository {
     const allCustomers = await this.prisma.customers.findMany();
 
     return allCustomers;
+  }
+
+  async getId(customerId: string): Promise<{
+    id: string;
+    name: string;
+    phone: string;
+    email: string;
+    cpf: string;
+    cep: string;
+    city: string;
+    uf: string;
+    address: string;
+    complement: string;
+    neighborhood: string;
+    supplierId: string;
+    created_at: Date;
+    updated_at: Date;
+  }> {
+    const customer = await this.prisma.customers.findUnique({
+      where: { id: customerId },
+    });
+
+    if (!customer) {
+      throw new NotFoundException('Cliente não encontrado');
+    }
+
+    return customer;
   }
 }
