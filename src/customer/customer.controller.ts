@@ -3,6 +3,7 @@ import {
   Post,
   Get,
   Body,
+  Param,
   UsePipes,
   ValidationPipe,
   UseGuards,
@@ -34,5 +35,11 @@ export class CustomerController {
   @UseGuards(AuthGuard)
   async getAll() {
     return this.customerRepository.getAll();
+  }
+
+  @Get(':id')
+  @UseGuards(AuthGuard)
+  async getId(@Param('id') customerId: string) {
+    return this.customerRepository.getId(customerId);
   }
 }
