@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - '5432:5432'
+    container_name: db
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - data:/data/db
+
+  node-server:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=${DB_URL}
+    command: ['npm', 'start']
+
+volumes:
+  data:
